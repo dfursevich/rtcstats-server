@@ -22,3 +22,8 @@ node_modules
 GeoLite2-City.*
 
 static
+
+.idea
+temp
+package-lock.json
+out.html

@@ -77,7 +77,7 @@ CREATE TABLE features (
     localcreatedelay integer,
     maxstreams integer,
     maxremotestreams integer,
-    numberOfRemoteStreams integer,
+    numberofremotestreams integer,
     mediatypes character varying(255),
     usingbundle boolean,
     usingicelite boolean,

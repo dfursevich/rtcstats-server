@@ -26,9 +26,11 @@
     "lodash": "^4.17.11",
     "maxmind": "^1.3.0",
     "pem": "^1.14.2",
+    "pg": "^7.11.0",
     "platform": "https://github.com/bestiejs/platform.js.git",
     "prom-client": "^11.3.0",
     "sdp": "^2.9.0",
+    "sequelize": "^5.10.1",
     "uuid": "^2.0.1",
     "ws": "^5.1.1"
   },

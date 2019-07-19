@@ -8,7 +8,9 @@ rm out.html; node queries.js > out.html && firefox out.html
 const pg = require('pg');
 const fs = require('fs');
 
-const connectionString = process.env.CONNECTIONSTRING;
+const connectionString = "postgres://postgres:@localhost:5432/postgresql";
+const schemaName = "rtc_stats";
+
 const client = new pg.Client(connectionString);
 
 const query = require('./lib/query')(client);
@@ -1513,9 +1515,9 @@ function roomnames() {
 }
 
 function receivedwidthMax() {
-    query("SELECT count(*) AS count, [day], videorecvgoogframewidthreceivedmax as width " +
+    query("SELECT count(*) AS count, [day], videogoogframewidthreceivedmax as width " +
         "FROM features " +
-        "WHERE usingicelite = 't' AND (videorecvgoogframewidthreceivedmax = 1280 OR videorecvgoogframewidthreceivedmax = 640 OR videorecvgoogframewidthreceivedmax = 320) " +
+        "WHERE usingicelite = 't' AND (videogoogframewidthreceivedmax = 1280 OR videogoogframewidthreceivedmax = 640 OR videogoogframewidthreceivedmax = 320) " +
         "GROUP BY day, width " +
         "ORDER BY day ASC")
     .then(res => {
@@ -1550,9 +1552,9 @@ function receivedwidthMode() {
     });
 }
 function sentwidthMax() {
-    query("SELECT count(*) AS count, [day], videosendgoogframewidthsentmax as width " +
+    query("SELECT count(*) AS count, [day], videogoogframewidthsentmax as width " +
         "FROM features " +
-        "WHERE usingicelite = 't' AND (videosendgoogframewidthsentmax = 1280 OR videosendgoogframewidthsentmax = 640 OR videosendgoogframewidthsentmax = 320) " +
+        "WHERE usingicelite = 't' AND (videogoogframewidthsentmax = 1280 OR videogoogframewidthsentmax = 640 OR videogoogframewidthsentmax = 320) " +
         "GROUP BY day, width " +
         "ORDER BY day ASC")
     .then(res => {
@@ -1615,6 +1617,11 @@ client.connect(err => {
         client.end();
         return;
     }
+
+    if (schemaName) {
+        client.query("SET search_path TO '" + schemaName + "';", function(err, res) {});
+    }
+
     // days, by browser versions.
     videodays();
     videodays_byBrowser();
@@ -1705,11 +1712,11 @@ client.connect(err => {
     firstcandidatepairremotetypepreference();
     connected();
 
-    audiobug();
-    audiobug2();
-    audiobug_osx();
-    audiobug_windows();
-    audiobug_chromeos();
+    // audiobug();
+    // audiobug2();
+    // audiobug_osx();
+    // audiobug_windows();
+    // audiobug_chromeos();
 
     failed();
     failedSFU();

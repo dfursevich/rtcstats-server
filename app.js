@@ -13,9 +13,7 @@ const maxmind = require('maxmind');
 const cityLookup = maxmind.open('./GeoLite2-City.mmdb');
 
 const obfuscate = require('./obfuscator');
-const Database = require('./database')({
-    firehose: config.get('firehose'),
-});
+const Postgres = require('./postgres')({});
 const Store = require('./store')({
   s3: config.get('s3'),
 });
@@ -78,8 +76,9 @@ class ProcessQueue {
             });
         });
         p.on('message', (msg) => {
+            console.log(msg);
             const {url, clientid, connid, clientFeatures, connectionFeatures, streamFeatures} = msg;
-            Database.put(url, clientid, connid, clientFeatures, connectionFeatures, streamFeatures);
+            Postgres.put(url, clientid, connid, clientFeatures, connectionFeatures, streamFeatures);
         });
         p.on('error', () => {
             this.numProc--;

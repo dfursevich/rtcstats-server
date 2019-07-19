@@ -1,24 +1,29 @@
-# rtcstats-server
-server for https://github.com/opentok/rtcstats
+#Run Server
 
-## Load errors
+1. npm install
+2. Create Postgres database and run features-v2.sql
+3. Configure database url in the beginning of postgres.js
+4. npm start
+
+#Display Collected Stats
+
+1. Configure database url and schema name in the beginning of queries/queries.js
+2. node queries/queries.js > out.html
+3. Open out.html
+
+# Use client
+
+1. Clone https://github.com/lifeonairteam/rtcstats
+
 ```
-select starttime, colname, col_length, type, err_reason
-    from stl_load_errors
-    order by starttime desc;
+$npm i
+$npm run dist
 ```
 
-## views on recent data
+2. Include rtcstats.js before any of webrtc javascript.
+
 ```
-create or replace view recent as select * from features_new order by date desc limit 100000;
+<script src='/path/to/rtcstats.js'></script>
 ```
 
-## Sample queries
-
-The `queries` directory contains nodejs script that will connect to redshift, run a large
-number of queries and output a HTML file to stdout.
-
-## Extracting features from a local dump file
-
-1. Move the dump file to the temp folder
-2. Run `node extract name-of-the-file`
+3. Configure server url in rtcstats.js
